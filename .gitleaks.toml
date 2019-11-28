@@ -1,0 +1,45 @@
+[[rules]]
+    description = "AWS Client ID"
+    regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+    tags = ["key", "AWS"]
+
+    [[rules.whitelist]]
+        regex = '''AKIAIO5FODNN7EXAMPLE'''
+        description = "ignore example aws key"
+
+[[rules]]
+    description = "AWS Secret Key"
+    regex = '''(?i)aws(.{0,20})?(?-i)['\"][0-9a-zA-Z\/+]{40}['\"]'''
+    tags = ["key", "AWS"]
+
+    [[rules.whitelist]]
+        regex = '''wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'''
+        description = "ignore example aws key"
+
+[[rules]]
+    description = "Generic API Key"
+    regex = '''(?i)['"]?[\w-_]*(apikey|api_key|secret)[\w-_]*['"]?\s*[=:]\s*('(?:[^'\\]|\\.){6,100}'|"(?:[^"\\]|\\.){6,100}")'''
+    tags = ["key", "API", "Generic"]
+
+[[rules]]
+    description = "SendGrid API Key"
+    regex = '''SG\.[\w_]{16,32}\.[\w_]{16,64}'''
+    tags = ["key", "SendGrid"]
+
+[[rules]]
+    description = "Asymmetric Private Key"
+    regex = '''-----BEGIN (EC|PGP|DSA|RSA|OPENSSH) PRIVATE KEY( BLOCK)?-----'''
+    tags = ["key", "AsymmetricPrivateKey"]
+
+[[rules]]
+    description = "Generic Password"
+    regex = '''(?im)['"]?[a-z-_]*password[a-z-_]*['"]?\s*[=:]\s*('(?:[^'\\]|\\.){6,100}'|"(?:[^"\\]|\\.){6,100}")\s*,?\s*$'''
+    tags = ["Password", "Generic"]
+
+    [[rules.whitelist]]
+        regex = '''passwordElement: '#password'''
+        description = "ignore example aws key"
+
+[whitelist]
+    description = "Ignore gitleaks config"
+    file = '''^\.?gitleaks.toml$'''
