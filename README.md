@@ -10,7 +10,12 @@ This document guides you through the configuration of the [gitleaks](https://git
 2. Due to the nature of regexes, they can only capture what they are configured to capture. If you are working on a project that utilises secrets or 3rd party services that you know are not covered by the recommended regexes then please raise an issue (or a merge request) with as much information on the format of the secret as possible. The Cyber Security team will be more than happy to work with you to get these included in this project.
 
 # Installation
-Install or upgrade [gitleaks](https://github.com/zricethezav/gitleaks).
+Install or upgrade [gitleaks](https://github.com/zricethezav/gitleaks), ensure you have at least version 3.0.3 e.g.:
+
+```
+➜ gitleaks --version
+3.0.3
+```
 
 ## OSX
 Gitleaks is available via HomeBrew on OSX.
