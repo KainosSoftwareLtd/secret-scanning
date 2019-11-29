@@ -2,9 +2,12 @@
 
 Implementing secret scanning helps prevents you from committing passwords and other sensitive information to a git repository. This is a huge problem with people committing valuable secrets (e.g. AWS Access Keys, API keys, private keys etc.) to public repos (e.g. Github). Leaking credentials in this manner can lead to the complete compromise of your service, leading to huge bills, data breaches and massive headaches as we try to piece everything back together.
 
-This document guides you through the configuration of the [gitleaks](https://github.com/zricethezav/gitleaks) secret scanner (other scanners are available) and provides some recommended regexes for you to get started. The only downside is you need to configure this for every repo you use locally.
+This document guides you through the configuration of the [gitleaks](https://github.com/zricethezav/gitleaks) secret scanner (other scanners are available) and provides some recommended regexes for you to get started.
 
-**Note:** Due to the nature of regexes, they can only capture what they are configured to capture. If you are working on a project that utilises secrets or 3rd party services that you know are not covered by the recommended regexes then please raise an issue (or a merge request) with as much information on the format of the secret as possible. The Cyber Security team will be more than happy to work with you to get these included in this project.
+**Note:** There are some considerations when using a tool like this:
+
+1. You need to configure this for every repo you have on your workstation. It is not possible to enforce the configuration of git hooks automatically on clone (otherwise an attacker could execute arbitratry code on your machine if you cloned a malicios repo), so these need to be configured per project.
+2. Due to the nature of regexes, they can only capture what they are configured to capture. If you are working on a project that utilises secrets or 3rd party services that you know are not covered by the recommended regexes then please raise an issue (or a merge request) with as much information on the format of the secret as possible. The Cyber Security team will be more than happy to work with you to get these included in this project.
 
 # Installation
 Install or upgrade [gitleaks](https://github.com/zricethezav/gitleaks).
@@ -82,7 +85,7 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
     git commit $TMPFILE
 
     # Remove TMPFILE
-    rm $TMPFILE
+    git rm -f $TMPFILE
     ```
 
 # Whitelisting
