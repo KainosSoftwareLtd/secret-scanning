@@ -2,7 +2,7 @@
 
 Implementing secret scanning helps prevents you from committing passwords and other sensitive information to a git repository. This is a huge problem with people committing valuable secrets (e.g. AWS Access Keys, API keys, private keys etc.) to public repos (e.g. Github). Leaking credentials in this manner can lead to the complete compromise of your service, leading to huge bills, data breaches and massive headaches as we try to piece everything back together.
 
-This document guides you through the configuration of the [gitleaks](https://github.com/zricethezav/gitleaks) secret scanner (other scanners are available) and provides some recommended regexes for you to get started.
+This document guides you through the configuration of the [gitleaks](https://github.com/zricethezav/gitleaks) secret scanner (other scanners are available) and provides some recommended regexes for you to get started. The only downside is you need to configure this for every repo you use locally.
 
 **Note:** Due to the nature of regexes, they can only capture what they are configured to capture. If you are working on a project that utilises secrets or 3rd party services that you know are not covered by the recommended regexes then please raise an issue (or a merge request) with as much information on the format of the secret as possible. The Cyber Security team will be more than happy to work with you to get these included in this project.
 
@@ -24,12 +24,15 @@ The Windows installation requires you to place the [gitleaks executable](https:/
 ```powershell
 # Make folder to be added to path
 mkdir "$HOME\bin"
-# Download latest gitleaks
+# Download latest gitleaks to folder
 Invoke-WebRequest https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks-windows-amd64.exe -OutFile "$HOME\bin\gitleaks.exe"
+# Set path for current shell
+$env:PATH += ";$HOME/bin"
 
-# Get User's path
+# Permanently set the PATH
+# Get User's current path value
 $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
-# Set User's path
+# Add folder to User's path
 [Environment]::SetEnvironmentVariable("Path", $USER_PATH + ";$HOME\bin", [System.EnvironmentVariableTarget]::User)
 ```
 
@@ -86,16 +89,16 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
 If your project is returning a false positive you can add some whitelisting regexes to individual rules e.g.:
 
 ```toml
-[[rules]]
+[[Rules]]
     description = "Generic Password"
     regex = '''(?im)['"]?[a-z-_]*password[a-z-_]*['"]?\s*[=:]\s*('(?:[^'\\]|\\.){6,100}'|"(?:[^"\\]|\\.){6,100}")\s*,?\s*$'''
     tags = ["Password", "Generic"]
 
-    [[rules.whitelist]]
+    [[Rules.Whitelist]]
         regex = '''passwordElement: '#password'''
         description = "ignore passwordElement"
 
-    [[rules.whitelist]]
+    [[Rules.Whitelist]]
         regex = '''passwordElement2: '#password'''
         description = "ignore passwordElement2"
 ```
