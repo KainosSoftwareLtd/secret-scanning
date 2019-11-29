@@ -7,9 +7,10 @@ This document guides you through the configuration of the [gitleaks](https://git
 **Note:** Due to the nature of regexes, they can only capture what they are configured to capture. If you are working on a project that utilises secrets or 3rd party services that you know are not covered by the recommended regexes then please raise an issue (or a merge request) with as much information on the format of the secret as possible. The Cyber Security team will be more than happy to work with you to get these included in this project.
 
 # Installation
-Install or upgrade `gitleaks`
+Install or upgrade [gitleaks](https://github.com/zricethezav/gitleaks).
 
 ## OSX
+Gitleaks is available via HomeBrew on OSX.
 ```bash
 # Install
 brew install gitleaks
@@ -34,7 +35,7 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
 
 # Configuration
 
-1. Create `.gitleaks.toml` either in your repo e.g.:
+1. Create `.gitleaks.toml` in your git repo e.g.:
 
     ```bash
     cd /path/to/repo
@@ -80,6 +81,24 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
     # Remove TMPFILE
     rm $TMPFILE
     ```
+
+# Whitelisting
+If your project is returning a false positive you can add some whitelisting regexes to individual rules e.g.:
+
+```toml
+[[rules]]
+    description = "Generic Password"
+    regex = '''(?im)['"]?[a-z-_]*password[a-z-_]*['"]?\s*[=:]\s*('(?:[^'\\]|\\.){6,100}'|"(?:[^"\\]|\\.){6,100}")\s*,?\s*$'''
+    tags = ["Password", "Generic"]
+
+    [[rules.whitelist]]
+        regex = '''passwordElement: '#password'''
+        description = "ignore passwordElement"
+
+    [[rules.whitelist]]
+        regex = '''passwordElement2: '#password'''
+        description = "ignore passwordElement2"
+```
 
 # Updates
 
