@@ -48,6 +48,10 @@
     description = "Username & Password in URI"
     regex = '''[a-zA-Z]{3,10}://[^/\s:@]{3,20}:[^/\s:@]{3,20}@.{1,100}'''
     tags = ["Password", "URI"]
+[[Rules]]
+    description = "Tenable key"
+    regex = '''(?i)['"]?[a-z-_]*(tenable|nessus|key|NESSUS_KEY)[a-z-_]*['"]?\s*[=:]\s*['"]?\w{64}['"]?'''
+    tags = ["key", "Tenable"]
 
 [[Rules]]
     description = "Facebook Secret Key"
