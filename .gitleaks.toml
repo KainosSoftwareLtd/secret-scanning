@@ -44,13 +44,18 @@
     description = "Generic Password"
     regex = '''(?im)['"]?[a-z-_]*password[a-z-_]*['"]?\s*[=:]\s*('(?:[^'\\]|\\.){6,100}'|"(?:[^"\\]|\\.){6,100}")\s*,?\s*$'''
     tags = ["Password", "Generic"]
+
+    [[Rules.Whitelist]]
+    regex = '''(<%= [\w-_]+ %>|%{hiera\(['"][\w-_]+['"]\)})'''
+    description = "Ignore templating engines"
+
 [[Rules]]
     description = "Username & Password in URI"
     regex = '''[a-zA-Z]{3,10}://[^/\s:@]{3,20}:[^/\s:@]{3,20}@.{1,100}'''
     tags = ["Password", "URI"]
 [[Rules]]
     description = "Tenable key"
-    regex = '''(?i)['"]?[a-z-_]*(tenable|nessus|key|NESSUS_KEY)[a-z-_]*['"]?\s*[=:]\s*['"]?\w{64}['"]?'''
+    regex = '''(?i)['"]?[a-z-_]*(tenable|nessus)[a-z-_]*['"]?\s*[=:]\s*['"]?\w{64}['"]?\s*,?\s*$'''
     tags = ["key", "Tenable"]
 
 [[Rules]]
