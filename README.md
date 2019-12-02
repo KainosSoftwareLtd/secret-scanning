@@ -62,22 +62,7 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
 3. Configure **pre-commit** hook to execute gitleaks automatically by creating the file `.git/hooks/pre-commit` e.g. 
 
     ```bash
-    #!/usr/bin/env bash
-    REPO_PATH="$(git rev-parse --show-toplevel)"
-    CONFIG_ARGS=""
-
-    if [ ! -z "$GITLEAKS_CONFIG" ]; then
-      CONFIG_ARGS="--config=${GITLEAKS_CONFIG}"
-    elif [ -f "${REPO_PATH}/.gitleaks.toml" ]; then
-      CONFIG_ARGS="--repo-config"
-    fi
-
-    gitleaks $CONFIG_ARGS --verbose --pretty
-    ```
-
-    Ensure the file is executable e.g.:
-
-    ```bash
+    curl https://gitlab.kainos.com/security/secret-scanning/raw/master/pre-commit-hook.sh -o .git/hooks/pre-commit
     chmod +x .git/hooks/pre-commit
     ```
 
@@ -93,7 +78,19 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
     git rm -f $TMPFILE
     ```
 
-# Whitelisting
+5. Configure your CI pipeline to perform a secrets scan.
+
+# What to do if you find a leak?
+
+So you've found a leak, what do you do?
+
+1. Assuming the secret identified is a genuine data leak you should raise a [security incident](https://kainoshelp.atlassian.net/servicedesk/customer/portal/18). This will help us track how often these incidents occur and we can help you with the analysis and remediation if necessary. 
+2. If you found the leak as part of your pre-commit hook and it has not actually made it into the repo, then you're probably lucky and you just need to fix the issue and move on.
+3. If the secret has been committed to the repo then we need to:
+    1. Know if the repo is hosted externally?
+    2. The Cyber Security team will be happy to help you resolve the issue, and this will most likely result in you [removing sensitive data from a repo](https://help.github.com/en/github/authenticating-to-github/removing-sensitive-data-from-a-repository)
+
+## False Positives
 If your project is returning a false positive you can add some whitelisting regexes to individual rules e.g.:
 
 ```toml
@@ -119,7 +116,8 @@ To be notified of changes to the recommended regexes or updates to the guidance 
 
 # Further Information
 
-If you prefer to use a system wide config instead of a project specific config you should store the `.gitleaks.toml` file in a know location e.g.:
+## Global config
+If you prefer to use a system wide config instead of a project specific config you can use the `--config` flag to reference your config e.g.:
 
 ```bash
 gitleaks --config=/path/to/.gitleaks.toml --repo-path=. --verbose --pretty
@@ -131,10 +129,15 @@ If you want to use this file with the `pre-commit` hook above then set the envir
 export GITLEAKS_CONFIG=/path/to/.gitleaks.toml
 ```
 
+## Proof-of-concept
 
-## Regex
+Commiting secrets to public repos is a really common and often very serious problem. For example, any commit that is pushed to GitHub is made available via their Events API. So there are tools (e.g. [shhgit](https://shhgit.darkport.co.uk/)) that just continually poll this API looking for secrets. You don't have to spend too long on this site to realise how often this occurs.
 
-We have used the following sources when defining our recommended [regexes](https://regex101.com/):
+![shhgit](images/shhgit.png)
+
+## Regexes
+
+We have used the following sources when defining our recommended [regexes](https://regex101.com/). If you have anything you would like to contribute just lets us know:
 
 1. https://github.com/awslabs/git-secrets/blob/master/git-secrets#L233
 2. https://github.com/eth0izzle/shhgit/blob/master/config.yaml
