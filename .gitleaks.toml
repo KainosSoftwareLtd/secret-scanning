@@ -46,9 +46,13 @@
     tags = ["Password", "Generic"]
 
     [[Rules.Whitelist]]
-    regex = '''(<%= [\w-_]+ %>|%{hiera\(['"][\w-_]+['"]\)})'''
+    regex = '''(<%= [\w\s\.-_]+ %>|%{hiera\(['"][\w\s\.-_]+['"]\)}|{{[\w\s\._-]+}}|\${[\w\s\._-]+})'''
     description = "Ignore templating engines"
 
+[[Rules]]
+    description = "XML Secrets"
+    regex = '''(?im)<\s*[a-z-_]*(apikey|api_key|secret|password)[a-z-_]*>.{4,100}</\s*[a-z-_]*(apikey|api_key|secret|password)[a-z-_]*>'''
+    tags = ["Password", "XML"]
 [[Rules]]
     description = "Username & Password in URI"
     regex = '''[a-zA-Z]{3,10}://[^/\s:@]{3,20}:[^/\s:@]{3,20}@.{1,100}'''
@@ -100,11 +104,11 @@
     tags = ["key", "Heroku"]
 [[Rules]]
     description = "MailChimp API key"
-    regex = '''(?i)(mailchimp|mc)(.{0,20})?['"][0-9a-f]{32}-us[0-9]{1,2}['"]'''
+    regex = '''(?i)(mailchimp)(.{0,20})?['"][0-9a-f]{32}-us[0-9]{1,2}['"]'''
     tags = ["key", "Mailchimp"]
 [[Rules]]
     description = "Mailgun API key"
-    regex = '''(?i)(mailgun|mg)(.{0,20})?['"][0-9a-z]{32}['"]'''
+    regex = '''(?i)(mailgun)(.{0,20})?['"][0-9a-z]{32}['"]'''
     tags = ["key", "Mailgun"]
 [[Rules]]
     description = "PayPal Braintree access token"
