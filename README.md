@@ -27,7 +27,7 @@ brew install gitleaks
 brew upgrade gitleaks
 ```
 ## Windows
-The Windows installation requires you to place the [gitleaks executable](https://github.com/zricethezav/gitleaks/releases/latest) into a folder on your path. If you don't know how to do this just use the script below (you can also use this script for upgrading gitleaks):
+The Windows installation requires you to place the [gitleaks executable](https://github.com/zricethezav/gitleaks/releases/latest) into a folder on your path. You can use the script below for installation and upgrade:
 
 ```powershell
 # Make folder to be added to path
