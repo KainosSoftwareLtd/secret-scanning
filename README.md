@@ -78,9 +78,23 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
     git rm -f $TMPFILE
     ```
 
-5. Configure your CI pipeline to perform a secrets scan.
+5. Configure your CI pipeline to perform a secrets scan e.g. `.gitlab-ci.yml`:
 
-# What to do if you find a leak?
+    ```.yaml
+    stages:
+      - security
+
+    gitleaks:
+      stage: security
+      image: 
+        name: "petergallagher/gitleaks"
+        entrypoint: [""]
+      script:
+        - gitleaks --repo-config --repo-path=./ --verbose --pretty
+    ```
+
+# Next steps
+## What to do if you find a leak?
 
 So you've found a leak, what do you do?
 
@@ -108,13 +122,22 @@ If your project is returning a false positive you can add some whitelisting rege
         description = "ignore passwordElement2"
 ```
 
-# Updates
+## Your project secrets
+
+Have a think about the secrets in used within your project e.g.:
+
+    1. What passwords, certificates, access keys/tokens are used within your project?
+    2. Do you integrate with any services or APIs? How are these authenticated?
+    3. Do you use any public Cloud based services (e.g. AWS, Azure, OpsGenie, Slack, SendGrid etc.)?
+    4. Does your project use a binary file which contains secrets?
+
+Would they be caught by this tool if you accidentally committed them to source? If not, [raise an issue](https://gitlab.kainos.com/security/secret-scanning/issues/new) so we can add a suitable regex for your secrets.
+
+## Updates
 
 To be notified of changes to the recommended regexes or updates to the guidance please enable notifications for this repo e.g.:
 
 ![Notifications - Watch](images/notifications.png)
-
-# Further Information
 
 ## Global config
 If you prefer to use a system wide config instead of a project specific config you can use the `--config` flag to reference your config e.g.:
@@ -129,6 +152,7 @@ If you want to use this file with the `pre-commit` hook above then set the envir
 export GITLEAKS_CONFIG=/path/to/.gitleaks.toml
 ```
 
+# Further Information
 ## Proof-of-concept
 
 Commiting secrets to public repos is a really common and often very serious problem. For example, any commit that is pushed to GitHub is made available via their Events API. So there are tools (e.g. [shhgit](https://shhgit.darkport.co.uk/)) that just continually poll this API looking for secrets. You don't have to spend too long on this site to realise how often this occurs.
