@@ -1,8 +1,8 @@
 # Secret Scanning
 
-Implementing secret scanning helps prevents you from committing passwords and other sensitive information to a git repository. This is a huge problem with people committing valuable secrets (e.g. AWS Access Keys, API keys, private keys etc.) to public repos (e.g. Github). Leaking credentials in this manner can lead to the complete compromise of your service, leading to huge bills, data breaches and massive headaches as we try to piece everything back together.
+Implementing secret scanning helps prevents you from committing passwords and other sensitive information to a git repository. This is a huge problem with people committing valuable secrets (e.g. API keys, certificates, private keys, passwords etc.) to public repos (e.g. Github). Leaking credentials in this manner can lead to the complete compromise of your service, leading to huge bills, data breaches and massive headaches as we try to piece everything back together.
 
-This document guides you through the configuration of the [gitleaks](https://github.com/zricethezav/gitleaks) secret scanner (other scanners are available) and provides some recommended regexes for you to get started.
+This document guides you through the configuration of the [gitleaks](https://github.com/zricethezav/gitleaks) secret scanner and provides some recommended regexes for you to get started.
 
 **Note:** There are some considerations when using a tool like this:
 
