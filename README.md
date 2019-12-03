@@ -134,10 +134,10 @@ If your project is returning a false positive you can add some whitelisting rege
 
 Have a think about the secrets in used within your project e.g.:
 
-    1. What passwords, certificates, access keys/tokens are used within your project?
-    2. Do you integrate with any services or APIs? How are these authenticated?
-    3. Do you use any public Cloud based services (e.g. AWS, Azure, OpsGenie, Slack, SendGrid etc.)?
-    4. Does your project use a binary file which contains secrets?
+1. What passwords, certificates, access keys/tokens are used within your project?
+2. Do you integrate with any services or APIs? How are these authenticated?
+3. Do you use any public Cloud based services (e.g. AWS, Azure, OpsGenie, Slack, SendGrid etc.)?
+4. Does your project use a binary file which contains secrets?
 
 Would they be caught by this tool if you accidentally committed them to source? If not, [raise an issue](https://gitlab.kainos.com/security/secret-scanning/issues/new) so we can add a suitable regex for your secrets.
 
