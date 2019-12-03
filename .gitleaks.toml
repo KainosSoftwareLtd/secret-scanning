@@ -46,7 +46,7 @@
     tags = ["Password", "Generic"]
 
     [[Rules.Whitelist]]
-    regex = '''(<%= [\w\s\.-_]+ %>|%{hiera\(['"][\w\s\.-_]+['"]\)}|{{[\w\s\._-]+}}|\${[\w\s\._-]+})'''
+    regex = '''(<%= [\w\s\.-_]+ %>|%{hiera\(['"][\w\s\.-_]+['"]\)}|{{[\w\s\._-]+}}|\${[\w\s\._-]+}|\[parameters\('[\w\s-_]+'\)\])'''
     description = "Ignore templating engines"
 
 [[Rules]]
