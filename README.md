@@ -51,6 +51,8 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
     ```bash
     cd /path/to/repo
     curl https://gitlab.kainos.com/security/secret-scanning/raw/master/.gitleaks.toml -o .gitleaks.toml
+    git add .gitleaks.toml
+    git commit .gitleaks.toml -m "Adding .gitleaks.toml"
     ```
 
 2. Run a full scan of your entire repo
