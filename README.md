@@ -126,8 +126,8 @@ If your project is returning a false positive you can add some whitelisting rege
         description = "ignore passwordElement"
 
     [[Rules.Whitelist]]
-        regex = '''passwordElement2: '#password'''
-        description = "ignore passwordElement2"
+        regex = '''sessionPassword: 'secret'''
+        description = "ignore dummy value for sessionPassword"
 ```
 
 ## Your project secrets
@@ -169,9 +169,11 @@ Commiting secrets to public repos is a really common and often very serious prob
 
 ## Regexes
 
-We have used the following sources when defining our recommended [regexes](https://regex101.com/). If you have anything you would like to contribute just lets us know:
+We have used the following sources when defining our recommended regexes. If you have anything you would like to contribute just lets us know:
 
 1. https://github.com/awslabs/git-secrets/blob/master/git-secrets#L233
 2. https://github.com/eth0izzle/shhgit/blob/master/config.yaml
 3. https://github.com/dxa4481/truffleHogRegexes/blob/master/truffleHogRegexes/regexes.json
 4. https://github.com/zricethezav/gitleaks/blob/master/config/default.go
+
+A good resource for testing your regexes is [regex101.com](https://regex101.com/).
