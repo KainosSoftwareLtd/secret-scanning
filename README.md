@@ -98,11 +98,19 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
 
 So you've found a leak, what do you do?
 
-1. Assuming the secret identified is a genuine data leak you should raise a [security incident](https://kainoshelp.atlassian.net/servicedesk/customer/portal/18). This will help us track how often these incidents occur and we can help you with the analysis and remediation if necessary. 
-2. If you found the leak as part of your pre-commit hook and it has not actually made it into the repo, then you're probably lucky and you just need to fix the issue and move on.
-3. If the secret has been committed to the repo then we need to:
-    1. Know if the repo is hosted externally?
-    2. The Cyber Security team will be happy to help you resolve the issue, and this will most likely result in you [removing sensitive data from a repo](https://help.github.com/en/github/authenticating-to-github/removing-sensitive-data-from-a-repository)
+1. Assuming the secret identified is a genuine data leak you should raise a [security incident](https://kainoshelp.atlassian.net/servicedesk/customer/portal/18). This will help us track how often these incidents occur and we can help you with the analysis and remediation if necessary. We will need to know the following information:
+
+    1. Has the commit be pushed to a central repo or another developer environment?
+    2. Is the repo hosted externally?
+    3. Is the repo publically accessible?
+    4. What secret has been leaked?
+    5. When was the secret first leaked?
+    6. What would an attacker have the ability to do with this secret?
+    7. What steps are required to generate a new secret and replace the compromised secret?
+    8. Are there any security controls in place that can mitigate the impact of the leak?
+
+2. It is really important that the Cyber Security Capability are notified of any leak. For example, if an AWS root account access keys are leaked then we might need to detroy and recreate the entire account if there are signs of compromise. Do not underestimate how much damage can be caused by even a temporary leak of security credentials. Once they are leaked they must be considered compromised. It is not sufficient to delete the branch or project and hope nobody noticed the leak.
+3. Finally, you will most likely need to follow the steps for [removing sensitive data from a repo](https://help.github.com/en/github/authenticating-to-github/removing-sensitive-data-from-a-repository). Please do not do this without providing evidence to the Cyber Security Capability first.
 
 ## False Positives
 If your project is returning a false positive you can add some whitelisting regexes to individual rules e.g.:
