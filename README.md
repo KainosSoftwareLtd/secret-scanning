@@ -89,7 +89,7 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
     gitleaks:
       stage: security
       image: 
-        name: "petergallagher/gitleaks"
+        name: "zricethezav/gitleaks:v3.0.3"
         entrypoint: [""]
       script:
         - gitleaks --repo-config --repo-path=./ --verbose --pretty
