@@ -100,7 +100,7 @@ $USER_PATH=[Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVari
 
 So you've found a leak, what do you do?
 
-1. Assuming the secret identified is a genuine data leak you should raise a [security incident](https://kainoshelp.atlassian.net/servicedesk/customer/portal/18). This will help us track how often these incidents occur and we can help you with the analysis and remediation if necessary. We will need to know the following information:
+1. Assuming the secret identified is a genuine data leak that has been exposed externally you should raise a [security incident](https://kainoshelp.atlassian.net/servicedesk/customer/portal/10/group/112/create/453). This will help us track how often these incidents occur and we can help you with the analysis and remediation if necessary. We will need to know the following information:
 
     1. Has the commit be pushed to a central repo or another developer environment?
     2. Is the repo hosted externally?
